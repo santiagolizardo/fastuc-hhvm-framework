@@ -176,7 +176,7 @@ class Dispatcher
 				trigger_error( "Route '$route[pattern]' was defined but controller '$route[controller]' does not exist", E_USER_WARNING );
 
 				$route->setController( 'errorPage' );
-				$route->setAttributes( [ 500, $requestPath ] );
+				$route->setAttributes( Map<string, mixed> { 0 => 500, 1 => $requestPath } );
 			}
 		}
 		else
@@ -186,12 +186,11 @@ class Dispatcher
 			if( true == file_exists( $path ) )
 			{
 				$route->setController( $requestPath );
-				$route->setAttributes( [] );
 			}
 			else
 			{
 				$route->setController( 'errorPage' );
-				$route->setAttributes( Map<string, mixed> { 0 => 404, 1=> "The request path '$requestPath' is not associated to a controller." } );
+				$route->setAttributes( Map<string, mixed> { 0 => 404, 1 => "The request path '$requestPath' is not associated to a controller." } );
 			}
 		}
 

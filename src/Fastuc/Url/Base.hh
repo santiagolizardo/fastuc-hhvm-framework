@@ -56,6 +56,8 @@ class Base
 			}
 
 			$suffix = $route->getPathMatcher();
+			$suffix = ltrim( $suffix, '^' );
+			$suffix = rtrim( $suffix, '$' );
 			$suffix = $this->contextPath . '/' . $suffix;
 		}
 		else
