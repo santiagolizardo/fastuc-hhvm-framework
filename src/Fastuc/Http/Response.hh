@@ -79,10 +79,7 @@ class Response
 		return self::$statusCodes;
 	}
 
-	/**
-	 * @var array
-	 */
-	private array $headers;
+	private Map<string, string> $headers;
 
 	/**
 	 * @var string
@@ -96,7 +93,7 @@ class Response
 
 	public function __construct()
 	{
-		$this->headers = array();
+		$this->headers = new Map<string, string>();
 		$this->body = '';
 		$this->statusCode = 200;
 	}

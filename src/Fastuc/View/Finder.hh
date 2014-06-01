@@ -3,6 +3,8 @@ namespace Fastuc\View;
 
 class Finder
 {
+	const DEFAULT_FILE_EXTENSION = '.hh';
+
 	/**
 	 * @var array
 	 */
@@ -59,7 +61,7 @@ class Finder
 
 		foreach( $this->searchPaths as $path )
 		{
-			$fullPath = $path . DIRECTORY_SEPARATOR . $name . '.php';
+			$fullPath = $path . DIRECTORY_SEPARATOR . $name . self::DEFAULT_FILE_EXTENSION;
 			if( file_exists( $fullPath ) )
 			{
 				$this->cachedPaths[ $name ] = $fullPath;

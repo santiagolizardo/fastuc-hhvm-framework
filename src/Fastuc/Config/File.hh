@@ -3,6 +3,8 @@ namespace Fastuc\Config;
 
 class File
 {
+	const DEFAULT_FILE_EXTENSION = '.hh';
+
 	/**
 	 * @var string
 	 */
@@ -67,7 +69,7 @@ class File
 	 */
 	public function getPath() : string
 	{
-		return $this->basePath . DIRECTORY_SEPARATOR . $this->name . '.php';
+		return $this->basePath . DIRECTORY_SEPARATOR . $this->name . self::DEFAULT_FILE_EXTENSION;
 	}
 
 	/**

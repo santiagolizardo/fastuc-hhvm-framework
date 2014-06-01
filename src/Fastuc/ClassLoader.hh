@@ -9,6 +9,8 @@ class ClassLoaderException extends \Exception {}
  */
 class ClassLoader
 {
+	const DEFAULT_FILE_EXTENSION = '.hh';
+
 	/**
 	 * @var ClassLoader
 	 */
@@ -29,10 +31,7 @@ class ClassLoader
 		return self::$singleton;
 	}
 
-	/**
-	 * @var array
-	 */
-	private array $singletons;
+	private Map<string, mixed> $singletons;
 
 	/**
 	 * @var array
@@ -44,7 +43,7 @@ class ClassLoader
 	 */
 	private function __construct()
 	{
-		$this->singletons = array();
+		$this->singletons = new Map<string, mixed>;
 		$this->inclusionPaths = array( __DIR__ );
 
 		spl_autoload_register( array( $this, 'loadFile' ) );
@@ -69,7 +68,7 @@ class ClassLoader
 		{
 			$classNameForPath = str_replace( '\\', '_', $className );
 		}
-		$path = DIRECTORY_SEPARATOR . str_replace( '_', DIRECTORY_SEPARATOR, $classNameForPath ) . '.php';
+		$path = DIRECTORY_SEPARATOR . str_replace( '_', DIRECTORY_SEPARATOR, $classNameForPath ) . self::DEFAULT_FILE_EXTENSION;
 
 		foreach( $this->inclusionPaths as $incPath )
 		{

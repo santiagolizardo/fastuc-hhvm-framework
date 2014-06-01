@@ -8,6 +8,8 @@ use \Fastuc\ClassLoader;
  */
 class Dispatcher
 {
+	const DEFAULT_FILE_EXTENSION = '.hh';
+
 	/**
 	 * @var ClassLoader
 	 */
@@ -23,14 +25,13 @@ class Dispatcher
 	 */
 	private string $baseControllerNs;
 
+	private string $fileExtension;
+
 	/**
 	 * @var string
 	 */
 	private string $baseControllerPath;
 
-	/**
-	 * @var array
-	 */
 	private Vector<Route> $routes;
 
 	public function __construct( string $contextPath = '' )
@@ -41,6 +42,8 @@ class Dispatcher
 		$this->routes = new Vector<Route>;
 
 		$this->baseControllerPath = $this->baseControllerNs = '';
+
+		$this->fileExtension = self::DEFAULT_FILE_EXTENSION;
 	}
 
 	/**
@@ -49,6 +52,11 @@ class Dispatcher
 	public function setBaseControllerPath( string $baseControllerPath ) : void
 	{
 		$this->baseControllerPath = $baseControllerPath;
+	}
+
+	public function setFileExtension( string $fileExtension ) : void
+	{
+		$this->fileExtension = $fileExtension;
 	}
 
 	/**
@@ -105,7 +113,6 @@ class Dispatcher
 
 		$controllerRoute = $this->getControllerRoute();
 		$route = $this->getControllerNameAndAttributes( $controllerRoute );
-
 		if( null == $route )
 		{
 			$this->runController( 'errorPage', Map<string, mixed> { 0 => 500, 1 => 'Route not found' } );
@@ -152,10 +159,10 @@ class Dispatcher
 	{
 		$requestUri = $_SERVER['REQUEST_URI'];
 
-		// Remove query string. Ex: /ostests/foo/bar?scott=tiger => /ostests/foo/bar
+		// Remove query string. Ex: /context/foo/bar?scott=tiger => /context/foo/bar
 		$route = preg_replace( '/(\?.*)$/', '', $requestUri );
 
-		// Remove context path. Ex: /ostests/foo/bar => /foo/bar
+		// Remove context path. Ex: /context/foo/bar => /foo/bar
 		$route = str_replace( $this->contextPath, '', $route );
 
 		// Remove leading slash. Ex: /foo/bar => foo/bar
@@ -173,7 +180,7 @@ class Dispatcher
 			$path = $this->getControllerPath( $route->getController() );
 			if( false == file_exists( $path ) )
 			{
-				trigger_error( "Route '$route[pattern]' was defined but controller '$route[controller]' does not exist", E_USER_WARNING );
+				trigger_error( "Route '" . $route->getPathMatcher() . "' was defined but controller '" . $route->getController() . "' does not exist", E_USER_WARNING );
 
 				$route->setController( 'errorPage' );
 				$route->setAttributes( Map<string, mixed> { 0 => 500, 1 => $requestPath } );
@@ -203,12 +210,12 @@ class Dispatcher
 	 */
 	private function getControllerPath( string $route ) : ?string
 	{	
-		$path = $this->baseControllerPath . $route . '.php';
+		$path = $this->baseControllerPath . $route . $this->fileExtension;
 		if( file_exists( $path ) )
 		{
 			return $path;
 		}
-		$path = $this->baseControllerPath . \Fastuc\Utils\Strings::capitalizeWords( $route ) . '.php';
+		$path = $this->baseControllerPath . \Fastuc\Utils\Strings::capitalizeWords( $route ) . $this->fileExtension;
 		if( file_exists( $path ) )
 		{
 			return $path;
