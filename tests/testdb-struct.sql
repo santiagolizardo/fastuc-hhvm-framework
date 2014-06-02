@@ -1,0 +1,21 @@
+
+DROP DATABASE IF EXISTS fastuc_testdb;
+
+CREATE DATABASE fastuc_testdb DEFAULT CHARACTER SET UTF8;
+
+GRANT ALL PRIVILEGES ON fastuc_testdb.* TO 'fastuc_user'@'%' IDENTIFIED BY 'fastuc_pass';
+
+FLUSH PRIVILEGES;
+
+USE fastuc_testdb;
+
+CREATE TABLE game
+(
+	id INT UNSIGNED NOT NULL AUTO_INCREMENT,
+	name VARCHAR( 200 ) NOT NULL,
+	category ENUM( 'SPORTS', 'PUZZLE', 'FPS' ) NOT NULL,
+
+		PRIMARY KEY( id ),
+		UNIQUE KEY( name )
+);
+

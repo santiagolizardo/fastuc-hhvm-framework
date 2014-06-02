@@ -1,0 +1,17 @@
+
+language: php
+
+php:
+  - hhvm
+
+before_script:
+  - pear config-set auto_discover 1
+  - pear install pear.phpunit.de/DbUnit
+  - phpenv config-add travis-php-config.ini
+
+script: ./run-tests.sh 
+
+after_script:
+  - wget https://scrutinizer-ci.com/ocular.phar
+  - php ocular.phar code-coverage:upload --format=php-clover coverage.clover
+

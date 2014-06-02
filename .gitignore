@@ -1,0 +1,8 @@
+.buildpath
+.project
+.settings
+*~
+news
+coverage-report/
+composer.phar
+coverage.clover
