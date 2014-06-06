@@ -1,4 +1,4 @@
-<?hh
+<?hh // strict
 namespace Fastuc\Web;
 
 class RedirectorTest extends \PHPUnit_Framework_TestCase
@@ -30,7 +30,7 @@ class RedirectorTest extends \PHPUnit_Framework_TestCase
 
 	public function testGoToUrl()
 	{
-		$redirector = $this->getMock( '\Fastuc\Web\Redirector', array( 'sendHeader' ) );
+		$redirector = $this->getMock( '\Fastuc\Web\Redirector', [ 'sendHeader' ] );
 		$redirector->expects( $this->at( 0 ) )
 			->method( 'sendHeader' )
 			->with( 'HTTP/1.1 301 Moved Permanently' );
@@ -43,7 +43,7 @@ class RedirectorTest extends \PHPUnit_Framework_TestCase
 	
 	public function testGoToReferer()
 	{
-		$redirector = $this->getMock( '\Fastuc\Web\Redirector', array( 'sendHeader' ) );
+		$redirector = $this->getMock( '\Fastuc\Web\Redirector', [ 'sendHeader' ] );
 		$redirector->expects( $this->once() )
 			->method( 'sendHeader' )
 			->with( 'Location: /' );
@@ -56,7 +56,7 @@ class RedirectorTest extends \PHPUnit_Framework_TestCase
 		$_SERVER['HTTP_HOST'] = 'www.google.es';
 		$referalUrl = $_SERVER['HTTP_REFERER'] = 'http://www.google.es/?q=foobar';
 
-		$redirector = $this->getMock( '\Fastuc\Web\Redirector', array( 'sendHeader' ) );
+		$redirector = $this->getMock( '\Fastuc\Web\Redirector', [ 'sendHeader' ] );
 		$redirector->expects( $this->once() )
 			->method( 'sendHeader' )
 			->with( 'Location: ' . $referalUrl );

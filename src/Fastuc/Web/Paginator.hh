@@ -106,23 +106,23 @@ class Paginator
 	 * @param integer $limit
 	 * @return array
 	 */
-	public function getPages( int $limit = 10 ) : array
+	public function getPages( int $limit = 10 ) : Vector<array>
 	{
 		$selectedPage = $this->getSelectedPage();
 
-		$pages = array();
+		$pages = new Vector<array>;
 		for( $i = 0; $i < $this->getNumPages(); $i++ )
 		{
-			$pages[] = array(
+			$pages->add( array(
 				'url' => $this->createPageUrl( $i ),
 				'number' => ( $i + 1 ),
 				'selected' => ( $i == $selectedPage )
-			);
+			) );
 		}
-		if( null !== $limit && count( $pages ) > 10 )
+		if( null !== $limit && $pages->count() > 10 )
 		{
-			$pages = array_slice( $pages, max( 0, $selectedPage - 4 ), 10 );
-			if( count( $pages ) < 10 )
+			$pages->splice( max( 0, $selectedPage - 4 ), 10 );
+			if( $pages->count() < 10 )
 			{
 				array_unshift( $pages,
 					array( 'url' => $this->createPageUrl( 0 ), 'number' => 1, 'selected' => false ),

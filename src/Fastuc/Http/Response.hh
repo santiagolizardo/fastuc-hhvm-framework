@@ -3,10 +3,7 @@ namespace Fastuc\Http;
 
 class Response
 {
-	/**
-	 * @var array
-	 */
-	private static Map $statusCodes = ImmMap {
+	private static Map<int, string> $statusCodes = ImmMap<int, string> {
 		100 => 'Continue',
 		101 => 'Switching Protocols',
 		102 => 'Processing',
@@ -74,7 +71,7 @@ class Response
 	/**
 	 * @return array Returns a list of all known HTTP status codes.
 	 */
-	public static function getStatusCodes() : ImmMap
+	public static function getStatusCodes() : ImmMap<int, string>
 	{
 		return self::$statusCodes;
 	}
@@ -167,7 +164,7 @@ class Response
 	 */
 	public function send() : void
 	{
-		$header = implode( ' ', array( $_SERVER['SERVER_PROTOCOL'], $this->statusCode, self::$statusCodes[ $this->statusCode ] ) );
+		$header = implode( ' ', [ $_SERVER['SERVER_PROTOCOL'], $this->statusCode, self::$statusCodes[ $this->statusCode ] ] );
 		$this->sendHeader( $header, true, $this->statusCode );
 
 		foreach( $this->headers as $name => $value )
@@ -178,7 +175,7 @@ class Response
 		$this->write( $this->body );
 	}
 
-	public function sendHeader( string $header, bool $replace = true, int $statusCode = null ) : void
+	public function sendHeader( /* string */ $header, /* bool */ $replace = true, /* int */ $statusCode = null ) : void
 	{
 		header( $header, $replace, $statusCode );
 	}

@@ -26,7 +26,7 @@ class RobotsTest extends \PHPUnit_Framework_TestCase
 		$this->robots->setSitemapUrl( 'http://nicesite.com/sitemap.xml' );
 		$this->robots->addRule( 'IE', false, '.*' );
 
-		$string = $this->robots->dumpToString();
+		$string = $this->robots->toText();
 		$this->assertContains( 'User-agent: IE', $string );
 		$this->assertContains( 'Disallow: .*', $string );
 		$this->assertContains( 'Sitemap: http://nicesite.com/sitemap.xml', $string );

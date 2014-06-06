@@ -10,13 +10,13 @@ class TypedArrayNoTest extends \PHPUnit_Framework_TestCase
 		$this->assertFalse( $array->hasParam( 'foobar' ) );
 		$this->assertNull( $array->getParam( 'foobar' ) );
 
-		$array->setString( 'age', 1 );
+		$array->setString( 'age', '1' );
 		$this->assertSame( '1', $array->getParam( 'age' ) );
 	}
 
 	public function testTypes()
 	{
-		$values = array(
+		$values = Map<string, mixed> {
 			'name' => 'Daniel',
 			'price' => 10.5,
 			'age' => 33.2,
@@ -24,7 +24,7 @@ class TypedArrayNoTest extends \PHPUnit_Framework_TestCase
 			'married' => 1,
 			'human' => true,
 			'alive' => 'yes',
-		);
+		};
 
 		$array = new TypedArray( $values );
 
@@ -63,7 +63,7 @@ class TypedArrayNoTest extends \PHPUnit_Framework_TestCase
 		$array->unsetParam( 'foo' );
 		$this->assertFalse( $array->hasParam( 'foo' ) );
 
-		$this->assertEquals( array(), $array->getParams() );
+		$this->assertEmpty( $array->getParams() );
 	}
 
 	public function testSetUnsetAll()

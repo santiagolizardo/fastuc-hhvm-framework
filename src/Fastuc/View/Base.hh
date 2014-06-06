@@ -43,7 +43,7 @@ class Base extends \Fastuc\Utils\TypedArray
 	}
 
 	/**
-	 * @params \Fastuc\View\Finder
+	 * @param \Fastuc\View\Finder
 	 */
 	public function setTemplateFinder( \Fastuc\View\Finder $finder ) : void
 	{
@@ -73,7 +73,7 @@ class Base extends \Fastuc\Utils\TypedArray
 	 * @param array $params
 	 * @return string
 	 */
-	public function render( string $template = null, array $params = array() ) : string
+	public function render( string $template = null, Map<string, mixed> $params = Map<string, mixed> {} ) : string
 	{
 		$template = ( null === $template ? $this->template : $template );
 		if( empty( $template ) )
@@ -81,8 +81,10 @@ class Base extends \Fastuc\Utils\TypedArray
 			throw new Exception( 'The template has not been defined or is null.' );
 		}
 
+		$mergedParams = $this->params->setAll( $params );
+
 		ob_start();
-		$this->compose( $template, array_merge( $this->params, $params ) );
+		$this->compose( $template, $mergedParams );
 		$content = ob_get_contents();
 		ob_end_clean();
 
@@ -95,9 +97,10 @@ class Base extends \Fastuc\Utils\TypedArray
 	 * @param string $template
 	 * @param array $vars
 	 */
-	public function compose( string $template, array $params = array() ) : void
+	public function compose( string $template, Map<string, mixed> $params = Map<string, mixed> {} ) : void
 	{
-		extract( array_merge( $this->params, $params ) );
+		$mergedParams = $this->params->setAll( $params );
+		extract( $mergedParams->toArray() );
 
 		$view = &$this;
 

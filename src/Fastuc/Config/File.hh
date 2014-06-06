@@ -21,21 +21,10 @@ class File
 	public function __construct( string $name = null )
 	{
 		$this->name = $name;
-
-		// @TODO: Remove references to APP_PATH.
-		if( defined( 'CONFIG_PATH' ) )
-		{
-			$this->setBasePath( CONFIG_PATH );
-		} else if ( defined ( 'APP_PATH' ) ) 
-		{
-			$this->setBasePath( APP_PATH . DIRECTORY_SEPARATOR . 'config' );
-		}
+		$this->basePath = __DIR__;
 	}
 
-	/**
-	 * @return string
-	 */
-	public function getName() : string
+	public function getName() : ?string
 	{
 		return $this->name;
 	}

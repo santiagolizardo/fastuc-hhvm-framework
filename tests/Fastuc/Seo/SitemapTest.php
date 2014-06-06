@@ -19,15 +19,15 @@ class SitemapTest extends \PHPUnit_Framework_TestCase
 	{
 		$this->assertEmpty( $this->sitemap->getUrls() );
 		
-		$this->sitemap->addUrl( 'http://www.santiagolizardo.com', Sitemap::FREQ_HOURLY, .9 );
+		$this->sitemap->addUrl( new SitemapUrl( 'http://www.santiagolizardo.com', Sitemap::FREQ_HOURLY, .9 ) );
 
-		$urls = array(
-			array(
-				'location' => 'http://www.santiagolizardo.com',
-				'changeFrequency' => Sitemap::FREQ_HOURLY,
-				'priority' => .9
+		$urls = Vector<SitemapUrl> {
+			new SitemapUrl(
+				'http://www.santiagolizardo.com',
+				Sitemap::FREQ_HOURLY,
+				.9
 			)
-		);
+		};
 		$this->assertEquals( $urls, $this->sitemap->getUrls() );
 	}
 
@@ -35,13 +35,13 @@ class SitemapTest extends \PHPUnit_Framework_TestCase
 	{
 		$this->setExpectedException( '\Exception', 'Invalid frequency: immediately' );
 
-		$this->sitemap->addUrl( 'http://www.now.com', 'immediately', '1.0' );
+		$this->sitemap->addUrl( new SitemapUrl( 'http://www.now.com', 'immediately', '1.0' ) );
 	}
 
 	public function testStringGeneration()
 	{
-		$this->sitemap->addUrl( 'http://fastuc.org', Sitemap::FREQ_WEEKLY, .5 );
-		$xml = $this->sitemap->dumpToString();
+		$this->sitemap->addUrl( new SitemapUrl( 'http://fastuc.org', Sitemap::FREQ_WEEKLY, .5 ) );
+		$xml = $this->sitemap->toXml();
 
 		$this->assertContains( 'xml version="1.0" encoding="utf-8"', $xml );
 		$this->assertContains( '<loc>http://fastuc.org</loc>', $xml );

@@ -6,23 +6,14 @@ namespace Fastuc\Utils;
  */
 class TypedArray
 {
-	/**
-	 * @var array
-	 */
-	protected array $params;
+	protected Map<string, mixed> $params;
 
-	/**
-	 * @param array $params
-	 */
-	public function __construct( array $params = array() )
+	public function __construct( Map<string, mixed> $params = Map<string, mixed> {} )
 	{
 		$this->setParams( $params );
 	}
 
-	/**
-	 * @param array $params
-	 */
-	public function setParams( array $params ) : void
+	public function setParams( Map<string, mixed> $params ) : void
 	{
 		$this->params = $params;
 	}
@@ -35,10 +26,7 @@ class TypedArray
 		$this->params = array_merge( $this->params, $params );
 	}
 
-	/**
-	 * @return array
-	 */
-	public function getParams() : array
+	public function getParams() : Map<string, mixed>
 	{
 		return $this->params;
 	}
@@ -83,30 +71,20 @@ class TypedArray
 	 */
 	public function unsetParams() : void
 	{
-		$this->params = array();
+		$this->params->clear();
+	}
+
+	public function setString( string $name, string $value ) : void
+	{
+		$this->setParam( $name, $value );
 	}
 
 	/**
 	 * @param string $name
-	 * @param mixed $value
-	 */
-	public function setString( string $name, mixed $value ) : void
-	{
-		$this->setParam( $name, strval( $value ) );
-	}
-
-	/**ranges - but still looking £40k+
-	 * Have attahced a slightly more detailed CV to his jobvite
-	 *
-	 * Is it worth telephone interviewing at that level?
-	 * May 14 at 3:18 pm
-	 *
-	 *
-	 * @param string $name
 	 * @param string $default Default value if the parameter does not exist.
 	 * @return string
 	 */
-	public function getString( string $name, $default = null ) : string
+	public function getString( string $name, string $default = null ) : string
 	{
 		$value = $this->getParam( $name );
 		return null === $value ? $default : strval( $value );
@@ -117,7 +95,7 @@ class TypedArray
 	 * @param integer $default Default value if the parameter does not exist.
 	 * @return integer
 	 */
-	public function getInt( string $name, $default = null ) : int
+	public function getInt( string $name, int $default = null ) : int
 	{
 		$value = $this->getParam( $name );
 		return null === $value ? $default : intval( $value );
@@ -127,9 +105,9 @@ class TypedArray
 	 * @param string $name
 	 * @param integer $value
 	 */
-	public function setInt( string $name, $value ) : void
+	public function setInt( string $name, int $value ) : void
 	{
-		$this->setParam( $name, intval( $value ) );
+		$this->setParam( $name, $value );
 	}
 
 	/**
@@ -137,7 +115,7 @@ class TypedArray
 	 * @param float $default Default value if the parameter does not exist.
 	 * @return float
 	 */
-	public function getFloat( string $name, $default = null ) : float
+	public function getFloat( string $name, float $default = null ) : float
 	{
 		$value = $this->getParam( $name );
 		return null === $value ? $default : floatval( $value );
@@ -148,10 +126,10 @@ class TypedArray
 	 * @param bool $default Default value if the parameter does not exist.
 	 * @return bool
 	 */
-	public function getBoolean( string $name, $default = false ) : bool
+	public function getBoolean( string $name, bool $default = false ) : bool
 	{
 		$value = $this->getParam( $name );
-		return null === $value ? $default : (bool)( $value );
+		return null === $value ? $default : boolval( $value );
 	}
 
 	/**

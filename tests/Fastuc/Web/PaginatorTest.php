@@ -9,7 +9,7 @@ class PaginatorTest extends \PHPUnit_Framework_TestCase
 		$this->assertEquals( 0, $paginator->getNumItems() );
 		$this->assertEquals( 0, $paginator->getNumPages() );
 		$this->assertEquals( 0, $paginator->getSelectedPage() );
-		$this->assertEquals( array(), $paginator->getPages() );
+		$this->assertEmpty( $paginator->getPages()->count() );
 		$this->assertEquals( '?page=26', $paginator->createPageUrl( 26 ) );
 	}
 
@@ -21,17 +21,17 @@ class PaginatorTest extends \PHPUnit_Framework_TestCase
 		return array(
 			'One page' => array(
 				10,
-				array(
+				Vector<array> {
 					array(
 						'selected' => true,
 						'number' => 1,
 						'url' => '?page=0',
 					),
-				),
+				},
 			),
 			'Two pages' => array(
 				19,
-				array(
+				Vector<array> {
 					array(
 						'selected' => true,
 						'number' => 1,
@@ -42,7 +42,7 @@ class PaginatorTest extends \PHPUnit_Framework_TestCase
 						'number' => 2,
 						'url' => '?page=1',
 					),
-				),
+				},
 			),
 		);
 	}
@@ -50,11 +50,12 @@ class PaginatorTest extends \PHPUnit_Framework_TestCase
 	/**
 	 * @dataProvider dataProviderForPages
 	 */
-	public function testPages( $numItems, array $pages )
+	public function testPages( $numItems, Vector<array> $expectedPages )
 	{
 		$paginator = new Paginator;
 		$paginator->setNumItems( $numItems );
-		$this->assertEquals( $pages, $paginator->getPages() );
+		$pages = $paginator->getPages();
+		$this->assertEquals( $expectedPages, $pages );
 	}
 }
 

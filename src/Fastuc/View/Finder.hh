@@ -5,20 +5,14 @@ class Finder
 {
 	const DEFAULT_FILE_EXTENSION = '.hh';
 
-	/**
-	 * @var array
-	 */
-	private array<string> $searchPaths;
+	private Vector<string> $searchPaths;
 
-	/**
-	 * @var array
-	 */
-	private array<string> $cachedPaths;
+	private Map<string, string> $cachedPaths;
 
 	public function __construct()
 	{
-		$this->searchPaths = array( '.' );
-		$this->cachedPaths = array();
+		$this->searchPaths = Vector<string> { '.' };
+		$this->cachedPaths = new Map<string, string>;
 	}
 
 	/**
@@ -26,7 +20,7 @@ class Finder
 	 */
 	public function addPath( string $path ) : void
 	{
-		$this->searchPaths[] = $path;
+		$this->searchPaths->add( $path );
 	}
 
 	/**
@@ -34,7 +28,7 @@ class Finder
 	 *
 	 * @param array $paths
 	 */
-	public function setPaths( array<string> $paths ) : void
+	public function setPaths( Vector<string> $paths ) : void
 	{
 		$this->searchPaths = $paths;
 	}
@@ -42,7 +36,7 @@ class Finder
 	/**
 	 * @return array
 	 */
-	public function getPaths() : array<string>
+	public function getPaths() : Vector<string>
 	{
 		return $this->searchPaths;
 	}
@@ -61,7 +55,7 @@ class Finder
 
 		foreach( $this->searchPaths as $path )
 		{
-			$fullPath = $path . DIRECTORY_SEPARATOR . $name . self::DEFAULT_FILE_EXTENSION;
+			$fullPath = $path . DIRECTORY_SEPARATOR . $name . '.php';
 			if( file_exists( $fullPath ) )
 			{
 				$this->cachedPaths[ $name ] = $fullPath;

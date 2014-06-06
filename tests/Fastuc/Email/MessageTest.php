@@ -11,7 +11,7 @@ class MessageTest extends \PHPUnit_Framework_TestCase
 	public function testInitialization()
 	{
 		$this->assertNull( $this->message->getSubject() );
-		$this->assertEquals( array(), $this->message->getRecipients() );
+		$this->assertEmpty( $this->message->getRecipients() );
 	}
 
 	public function testFluentInterface()

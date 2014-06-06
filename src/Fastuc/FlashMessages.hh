@@ -6,17 +6,14 @@ namespace Fastuc;
  */
 class FlashMessages
 {
-	/**
-	 * @var array
-	 */
-	private array $messages;
+	private Vector<array> $messages;
 
 	/**
 	 * Class constructor.
 	 */
 	public function __construct()
 	{
-		$this->messages = array();
+		$this->messages = new Vector<array>();
 	}
 
 	/**
@@ -25,10 +22,10 @@ class FlashMessages
 	 */
 	public function addMessage( string $message, string $type = 'info' ) : void
 	{
-		$this->messages[] = array(
+		$this->messages->add( array(
 			'type' => $type,
 			'label' => $message
-		);
+		) );
 	}
 
 	/**
@@ -42,7 +39,7 @@ class FlashMessages
 	/**
 	 * @return array
 	 */
-	public function getMessages() : array
+	public function getMessages() : Vector<array>
 	{
 		return $this->messages;
 	}

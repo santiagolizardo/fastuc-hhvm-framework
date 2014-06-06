@@ -18,7 +18,7 @@ class BaseTest extends \PHPUnit_Framework_TestCase
 	public function testAttributes()
 	{
 		$controller = new Base;
-		$this->assertEquals( array(), $controller->getAttributes() );
+		$this->assertEmpty( $controller->getAttributes() );
 
 		$this->assertFalse( $controller->issetAttribute( 'name' ) );
 		$this->assertNull( $controller->getAttribute( 'name' ) );

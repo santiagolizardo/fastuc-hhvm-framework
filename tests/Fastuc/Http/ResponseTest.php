@@ -7,7 +7,7 @@ class ResponseTest extends \PHPUnit_Framework_TestCase
 	{
 		$_SERVER['SERVER_PROTOCOL'] = 'HTTP';
 
-		$response = $this->getMock( '\Fastuc\Http\Response', array( 'sendHeader' ) );
+		$response = $this->getMock( '\Fastuc\Http\Response', [ 'sendHeader' ] );
 		$response->expects( $this->once() )
 			->method( 'sendHeader' )
 			->with( 'HTTP 200 OK' );

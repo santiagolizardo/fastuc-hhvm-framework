@@ -1,4 +1,4 @@
-<?hh
+<?hh // strict
 namespace Fastuc\Web;
 
 /**
@@ -135,7 +135,7 @@ class Redirector
 		}
 	}
 
-	public function sendHeader( string $header ) : void
+	public function sendHeader( /* string */ $header ) : void
 	{
 		header( $header );
 	}

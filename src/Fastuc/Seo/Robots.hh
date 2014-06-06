@@ -6,10 +6,7 @@ namespace Fastuc\Seo;
  */
 class Robots
 {
-	/**
-	 * @var array
-	 */
-	private array $rules;
+	private Vector<array> $rules;
 
 	/**
 	 * @var string
@@ -18,7 +15,7 @@ class Robots
 
 	public function __construct()
 	{
-		$this->rules = array();
+		$this->rules = new Vector<string>;
 		$this->sitemapUrl = null;
 	}
 
@@ -29,17 +26,14 @@ class Robots
 	 */
 	public function addRule( string $userAgent, bool $allowed, string $resource ) : void
 	{
-		$this->rules[] = array(
+		$this->rules->add( array(
 			'userAgent' => $userAgent,
 			'allowed' => $allowed,
 			'resource' => $resource
-		);
+		) );
 	}
 
-	/**
-	 * @return array
-	 */
-	public function getRules() : array
+	public function getRules() : Vector<array>
 	{
 		return $this->rules;
 	}
@@ -52,10 +46,7 @@ class Robots
 		$this->sitemapUrl = $sitemapUrl;
 	}
 
-	/**
-	 * @return string
-	 */
-	public function getSitemapUrl() : string
+	public function getSitemapUrl() : ?string
 	{
 		return $this->sitemapUrl;
 	}
@@ -65,22 +56,22 @@ class Robots
 	 *
 	 * @return string
 	 */
-	public function dumpToString() : string
+	public function toText() : string
 	{
-		$lines = array();
+		$lines = new Vector<string>;
 
 		if( null !== $this->sitemapUrl )
 		{
-			$lines[] = 'Sitemap: ' . $this->sitemapUrl;
+			$lines->add( 'Sitemap: ' . $this->sitemapUrl );
 		}
 
 		foreach( $this->rules as $rule )
 		{
-			$lines[] = 'User-agent: ' . $rule['userAgent'];
-			$lines[] = ( $rule['allowed'] ? 'Allow: ' : 'Disallow: ' ) . $rule['resource'];
+			$lines->add( 'User-agent: ' . $rule['userAgent'] );
+			$lines->add( ( $rule['allowed'] ? 'Allow: ' : 'Disallow: ' ) . $rule['resource'] );
 		}
 
-		return implode( $lines, PHP_EOL );
+		return implode( $lines->toArray(), PHP_EOL );
 	}
 
 	/**

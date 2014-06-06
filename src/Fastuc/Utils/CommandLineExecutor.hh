@@ -11,10 +11,7 @@ class CommandLineExecutor
 	 */
 	private string $programName;
 
-	/**
-	 * @var array
-	 */
-	private array $arguments;
+	private Vector<string> $arguments;
 
 	/**
 	 * @var string
@@ -32,7 +29,7 @@ class CommandLineExecutor
 	public function __construct( string $programName )
 	{
 		$this->programName = $programName;
-		$this->arguments = array();
+		$this->arguments = new Vector<string>();
 	}
 
 	/**
@@ -48,7 +45,8 @@ class CommandLineExecutor
 	 */
 	public function run() : string
 	{
-		$command = implode( ' ', array_merge( (array)$this->programName, $this->arguments ) );
+		$parts = array_merge( (array)$this->programName, $this->arguments->toArray() );
+		$command = implode( ' ', $parts );
 		return exec( $command, $this->output, $this->exitCode );
 	}
 

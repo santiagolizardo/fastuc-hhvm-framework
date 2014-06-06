@@ -26,16 +26,13 @@ class Message
 	 */
 	private string $replyTo;
 
-	/**
-	 * @var array
-	 */
-	private array $recipients;
+	private Vector<mixed> $recipients;
 
 	public function __construct()
 	{
 		$this->from = $this->replyTo = null;
 		$this->subject = $this->body = null;
-		$this->recipients = array();
+		$this->recipients = new Vector<mixed>;
 	}
 
 	/**
@@ -51,7 +48,7 @@ class Message
 	/**
 	 * @return string
 	 */
-	public function getSubject() : string
+	public function getSubject() : ?string
 	{
 		return $this->subject;
 	}
@@ -88,7 +85,7 @@ class Message
 	/**
 	 * @return string
 	 */
-	public function getFrom() : string
+	public function getFrom() : ?string
 	{
 		return $this->from;
 	}
@@ -107,7 +104,7 @@ class Message
 	/**
 	 * @return string
 	 */
-	public function getReplyTo() : string
+	public function getReplyTo() : ?string
 	{
 		return $this->replyTo;
 	}
@@ -130,14 +127,14 @@ class Message
 	 */
 	public function addRecipient( string $address, string $name = null ) : this
 	{
-		$this->recipients[] = Utils::formatAddress( $address, $name );
+		$this->recipients->add( Utils::formatAddress( $address, $name ) );
 		return $this;
 	}
 
 	/**
 	 * @return array
 	 */
-	public function getRecipients() : array
+	public function getRecipients() : Vector<mixed>
 	{
 		return $this->recipients;
 	}
@@ -147,17 +144,17 @@ class Message
 	 */
 	public function send() : void
 	{
-		$headers = array();
-		$headers[] = 'From: ' . $this->from;
+		$headers = new Vector<string>();
+		$headers->add( 'From: ' . $this->from );
 
 		if( null !== $this->replyTo )
 		{
-			$headers[] = 'Reply-To: ' . $this->replyTo;
+			$headers->add( 'Reply-To: ' . $this->replyTo );
 		}
 
-		$headers[] = 'X-Mailer: PHP/' . phpversion();
+		$headers->add( 'X-Mailer: PHP/' . phpversion() );
 
-		if( false === mail( implode( ';', $this->recipients ), $this->subject, $this->body, implode( "\r\n", $headers ) ) )
+		if( false === mail( implode( ';', $this->recipients->toArray() ), $this->subject, $this->body, implode( "\r\n", $headers->toArray() ) ) )
 		{
 			throw new Exception( 'The email message could not be sent' );
 		}

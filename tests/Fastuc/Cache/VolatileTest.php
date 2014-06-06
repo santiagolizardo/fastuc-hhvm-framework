@@ -25,7 +25,7 @@ class VolatileTest extends \PHPUnit_Framework_TestCase
 
 	public function testConfigArgument()
 	{
-		$backend = $this->getMock( '\Memcached', array( 'set', 'get', 'delete' ) );
+		$backend = $this->getMock( '\Memcached', [ 'set', 'get', 'delete' ] );
 		$backend->expects( $this->once() )
 			->method( 'set' )
 			->with( 'ns_foo', 'bar', 0 );
@@ -35,7 +35,8 @@ class VolatileTest extends \PHPUnit_Framework_TestCase
 			->will( $this->returnValue( 'bar' ) );
 		$backend->expects( $this->once() )
 			->method( 'delete' )
-			->with( 'ns_foo' );
+			->with( 'ns_foo' )
+			->will( $this->returnValue( true ) );
 
 		$this->cache->setBackend( $backend );
 		$this->cache->setNamespace( 'ns_' );

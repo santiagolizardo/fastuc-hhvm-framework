@@ -11,15 +11,9 @@ class Page extends Base
 	 */
 	private string $title;
 
-	/**
-	 * @var array
-	 */
-	private array $metas;
+	private Map<string, string> $metas;
 
-	/**
-	 * @var array
-	 */
-	private array $links;
+	private Vector<array> $links;
 
 	private Set $javaScripts;
 
@@ -42,8 +36,8 @@ class Page extends Base
 
 		$this->title = null;
 
-		$this->metas = array();
-		$this->links = array();
+		$this->metas = new Map<string, string>();
+		$this->links = new Vector<array>();
 
 		$this->javaScripts = new Set;
 
@@ -61,7 +55,7 @@ class Page extends Base
 	/**
 	 * @return string
 	 */
-	public function getTitle() : string
+	public function getTitle() : ?string
 	{
 		return $this->title;
 	}
@@ -123,10 +117,7 @@ class Page extends Base
 		return isset( $this->metas[ $name ] ) ? $this->metas[ $name ] : null;
 	}
 
-	/**
-	 * @return array
-	 */
-	public function getMetas() : array
+	public function getMetas() : Map<string, string>
 	{
 		return $this->metas;
 	}
@@ -172,19 +163,19 @@ class Page extends Base
 	 */
 	public function addLink( string $rel, string $href, string $type = null, string $media = null, string $title = null )
 	{
-		$this->links[] = array(
+		$this->links->add( array(
 			'rel' => $rel,
 			'href' => $href,
 			'type' => $type,
 			'media' => $media,
 			'title' => $title,
-		);
+		) );
 	}
 
 	/**
 	 * @return array
 	 */
-	public function getLinks() : array
+	public function getLinks() : Vector<array>
 	{
 		return $this->links;
 	}
@@ -217,11 +208,7 @@ class Page extends Base
 		);
 	}
 
-	/**
-	 * @param string $mainContent
-	 * @param array $vars
-	 */
-	public function render( string $mainContent = null, array $vars = array() ) : string
+	public function render( string $mainContent = null, Map<string, mixed> $vars = Map<string, mixed> {} ) : string
 	{
 		if( !empty( $mainContent ) )
 		{

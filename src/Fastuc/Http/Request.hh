@@ -25,16 +25,13 @@ class Request
 	 */
 	private string $userString;
 
-	/**
-	 * @var array
-	 */
-	private array $headers;
+	private Vector<string> $headers;
 
 	private \Fastuc\Input\Server $server;
 
 	public function __construct()
 	{
-		$this->headers = array();
+		$this->headers = new Vector<string>();
 
 		$this->server = new \Fastuc\Input\Server;
 	}
@@ -85,13 +82,10 @@ class Request
 
 	public function addHeader( string $header ) : void
 	{
-		$this->headers[] = $header;
+		$this->headers->add( $header );
 	}
 
-	/**
-	 * @return array
-	 */
-	public function getHeaders() : array
+	public function getHeaders() : Vector<string>
 	{
 		return $this->headers;
 	}

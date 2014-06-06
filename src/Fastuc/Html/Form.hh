@@ -6,24 +6,24 @@ class Form extends \Fastuc\Html\Fields
 	/**
 	 * @var string
 	 */
-	private $action;
+	private string $action;
 
 	/**
 	 * @var string
 	 */
-	private $method;
+	private string $method;
 
 	/**
 	 * Encoding type.
 	 *
 	 * @var string
 	 */
-	private $encType;
+	private string $encType;
 
 	/**
 	 * @var \Fastuc\Url\Base
 	 */
-	protected $urlFactory;
+	protected \Fastuc\Url\Base $urlFactory;
 
 	/**
 	 * Class constructor.
@@ -43,12 +43,12 @@ class Form extends \Fastuc\Html\Fields
 		$this->init();
 	}
 
-	public function setEncType( $encType )
+	public function setEncType( string $encType )
 	{
 		$this->encType = $encType;
 	}
 
-	public function getEncType()
+	public function getEncType() : ?string
 	{
 		return $this->encType;
 	}
@@ -69,7 +69,7 @@ class Form extends \Fastuc\Html\Fields
 	 *
 	 * @param string $action
 	 */
-	public function setAction( $action )
+	public function setAction( string $action )
 	{
 		$this->action = $action;
 	}
@@ -77,7 +77,7 @@ class Form extends \Fastuc\Html\Fields
 	/**
 	 * @return string
 	 */
-	public function getAction()
+	public function getAction() : string
 	{
 		return $this->action;
 	}
@@ -87,7 +87,7 @@ class Form extends \Fastuc\Html\Fields
 	 *
 	 * @param string $method
 	 */
-	public function setMethod( $method )
+	public function setMethod( string $method )
 	{
 		if( in_array( $method, array( 'get', 'post' ) ) )
 		{
@@ -100,7 +100,7 @@ class Form extends \Fastuc\Html\Fields
 	 * 
 	 * @return string
 	 */
-	public function getMethod()
+	public function getMethod() : string
 	{
 		return $this->method;
 	}
@@ -113,7 +113,7 @@ class Form extends \Fastuc\Html\Fields
 	/**
 	 * @return string
 	 */
-	public function __toString()
+	public function __toString() : string
 	{
 		$this->form->setAttribute( 'action', $this->action );
 		$this->form->setAttribute( 'method', $this->method );

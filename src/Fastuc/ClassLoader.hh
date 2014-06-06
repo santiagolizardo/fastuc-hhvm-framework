@@ -33,10 +33,7 @@ class ClassLoader
 
 	private Map<string, mixed> $singletons;
 
-	/**
-	 * @var array
-	 */
-	private array $inclusionPaths;
+	private Vector<string> $inclusionPaths;
 
 	/**
 	 * Constructor is not available for a singleton class.
@@ -44,9 +41,9 @@ class ClassLoader
 	private function __construct()
 	{
 		$this->singletons = new Map<string, mixed>;
-		$this->inclusionPaths = array( __DIR__ );
+		$this->inclusionPaths = Vector<string> {  __DIR__ };
 
-		spl_autoload_register( array( $this, 'loadFile' ) );
+		spl_autoload_register( [ $this, 'loadFile' ] );
 	}
 
 	/**
@@ -54,7 +51,7 @@ class ClassLoader
 	 */
 	public function addInclusionPath( string $inclusionPath ) : void
 	{
-		$this->inclusionPaths[] = $inclusionPath;
+		$this->inclusionPaths->add( $inclusionPath );
 	}
 
 	/**
@@ -114,7 +111,7 @@ class ClassLoader
 	 */
 	public function newSingleton( string $className, array $args = array() ) : mixed
 	{
-		if( isset( $this->singletons[ $className ] ) )
+		if( $this->singletons->containsKey( $className ) )
 		{
 			return $this->singletons[ $className ];
 		}

@@ -22,7 +22,7 @@ class Base
 		}
 		catch( \Exception $e )
 		{
-			$routes = array();
+			$routes = Vector<Route> {};
 		}
 
 		$this->webRouter = new \Fastuc\Web\Router( $routes );

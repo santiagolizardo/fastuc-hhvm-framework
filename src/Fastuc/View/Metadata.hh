@@ -3,14 +3,14 @@ namespace Fastuc\View;
 
 class Metadata
 {
-	/**
-	 * @param \Fastuc\View\Base $view
-	 * @param string $section
-	 * @param array $params
-	 */
-	public static function fillView( \Fastuc\View\Base $view, string $section, array $params = array() ) : void
+	public static function fillView( \Fastuc\View\Base $view, string $section, Map<string, mixed> $params = Map<string, mixed> {}, string $basePath = null ) : void
 	{
 		$metadataConfig = new \Fastuc\Config\File( 'metadata' );
+		if( $basePath )
+		{
+			$metadataConfig->setBasePath( $basePath );
+		}
+
 		$metadata = $metadataConfig->getValue();
 
 		if( !isset( $metadata[ $section ] ) )
