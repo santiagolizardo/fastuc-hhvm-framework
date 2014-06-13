@@ -23,7 +23,7 @@ class Request
 	/**
 	 * @var string
 	 */
-	private string $userString;
+	private string $userAgent;
 
 	private Vector<string> $headers;
 
@@ -34,6 +34,9 @@ class Request
 		$this->headers = new Vector<string>();
 
 		$this->server = new \Fastuc\Input\Server;
+
+		$this->method = $_SERVER['REQUEST_METHOD'];
+		$this->userAgent = $_SERVER['HTTP_USER_AGENT'];
 	}
 
 	/**

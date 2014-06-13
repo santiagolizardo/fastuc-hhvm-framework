@@ -5,6 +5,23 @@ class File
 {
 	const DEFAULT_FILE_EXTENSION = '.hh';
 
+	private static string $globalBasePath;
+
+	public static function setGlobalBasePath( string $globalBasePath ) : void
+	{
+		self::$globalBasePath = $globalBasePath;
+	}
+
+	public static function getGlobalBasePath() : string
+	{
+		if( null === self::$globalBasePath )
+		{
+			self::$globalBasePath = __DIR__;
+		}
+
+		return self::$globalBasePath;
+	}
+
 	/**
 	 * @var string
 	 */
@@ -21,7 +38,7 @@ class File
 	public function __construct( string $name = null )
 	{
 		$this->name = $name;
-		$this->basePath = __DIR__;
+		$this->basePath = self::getGlobalBasePath();
 	}
 
 	public function getName() : ?string

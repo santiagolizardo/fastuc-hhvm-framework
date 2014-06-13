@@ -95,7 +95,7 @@ class TypedArray
 	 * @param integer $default Default value if the parameter does not exist.
 	 * @return integer
 	 */
-	public function getInt( string $name, int $default = null ) : int
+	public function getInt( string $name, int $default = null ) : ?int
 	{
 		$value = $this->getParam( $name );
 		return null === $value ? $default : intval( $value );
