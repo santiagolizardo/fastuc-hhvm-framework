@@ -51,7 +51,7 @@ class Dispatcher
 	 */
 	public function setBaseControllerPath( string $baseControllerPath ) : void
 	{
-		$this->baseControllerPath = $baseControllerPath;
+		$this->baseControllerPath = rtrim( $baseControllerPath, DIRECTORY_SEPARATOR ) . DIRECTORY_SEPARATOR;
 	}
 
 	public function setFileExtension( string $fileExtension ) : void
@@ -115,7 +115,7 @@ class Dispatcher
 		$route = $this->getControllerNameAndAttributes( $controllerRoute );
 		if( null == $route )
 		{
-			$this->runController( 'errorPage', Map<string, mixed> { 0 => 500, 1 => 'Route not found' } );
+			$this->runController( '__FRAMEWORK_ERROR__', Map<string, mixed> { 0 => 500, 1 => 'Route not found' } );
 			return;
 		}
 
@@ -125,7 +125,7 @@ class Dispatcher
 		}
 		catch( \Exception $e )
 		{
-			$this->runController( 'errorPage', Map<string, mixed> { 0 => 500, 1 => $e->getMessage() } );
+			$this->runController( '__FRAMEWORK_ERROR__', Map<string, mixed> { 0 => 500, 1 => $e->getMessage() } );
 		}
 	}
 
@@ -139,6 +139,7 @@ class Dispatcher
 		else
 		{
 			$ctrlInstance = new \Fastuc\Controller\Error;
+			$controllerAttributes = Map<string, mixed> { 0 => 500, 1 => 'Class does not exist: ' . $controllerClassName };
 		}
 
 		$ctrlInstance->init();
@@ -182,7 +183,7 @@ class Dispatcher
 			{
 				trigger_error( "Route '" . $route->getPathMatcher() . "' was defined but controller '" . $route->getController() . "' does not exist", E_USER_WARNING );
 
-				$route->setController( 'errorPage' );
+				$route->setController( '__FRAMEWORK_ERROR__' );
 				$route->setAttributes( Map<string, mixed> { 0 => 500, 1 => $requestPath } );
 			}
 		}
@@ -196,7 +197,7 @@ class Dispatcher
 			}
 			else
 			{
-				$route->setController( 'errorPage' );
+				$route->setController( '__FRAMEWORK_ERROR__' );
 				$route->setAttributes( Map<string, mixed> { 0 => 404, 1 => "The request path '$requestPath' is not associated to a controller." } );
 			}
 		}
@@ -229,6 +230,11 @@ class Dispatcher
 	 */
 	private function getControllerClassName( string $route ) : string
 	{
+		if( '__FRAMEWORK_ERROR__' === $route )
+		{
+			return '\\Fastuc\\Controller\\Error';
+		}
+
 		$webSeparator = '/';
 		$components = explode( $webSeparator, $route );
 		array_walk( $components, function( &$value, $index )

@@ -17,6 +17,7 @@ class Http extends \Fastuc\Utils\TypedArray
 
 		switch( $this->method )
 		{
+			case 'OPTIONS':
 			case 'HEAD':
 			case 'GET':
 			case 'DELETE':
