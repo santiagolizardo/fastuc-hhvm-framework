@@ -186,6 +186,16 @@ class Base
 	}
 
 	/**
+	 * This method is invoked from a OPTIONS request.
+	 *
+	 * @param \Fastuc\Input\Http $params OPTIONS parameters.
+	 */
+	public function doOptions( \Fastuc\Input\Http $params ) : void
+	{
+		$this->sendError( 405 );
+	}
+
+	/**
 	 * @param integer $errorCode
 	 * @param string $errorMessage
 	 */

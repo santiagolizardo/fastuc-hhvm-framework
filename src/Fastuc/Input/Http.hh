@@ -13,27 +13,28 @@ class Http extends \Fastuc\Utils\TypedArray
 	 */
 	public function __construct( string $method )
 	{
+		parent::__construct();
+
 		$this->method = strtoupper( $method );
 
 		switch( $this->method )
 		{
-			case 'HEAD':
 			case 'GET':
-			case 'DELETE':
-				$this->params = $_GET;
+				$this->params = new Map<string, mixed>( $_GET );
 				break;
 			case 'POST':
-				$this->params = $_POST;
+				$this->params = new Map<string, mixed>( $_POST );
 				break;
 			case 'PUT':
 				parse_str( file_get_contents( 'php://input' ), $this->params );
 				break;
 			case 'REQUEST':
-				$this->params = $_REQUEST;
+				$this->params = new Map<sting, mixed>( $_REQUEST );
 				break;
-			// @TODO: Remove 'CUSTOM'. It shouldn't be here.
+			case 'DELETE':
+			case 'OPTIONS':
+			case 'HEAD':
 			case 'CUSTOM':
-				$this->params = array();
 				break;
 			default:
 				throw new \InvalidArgumentException( "Method \"$method\" is invalid" );
