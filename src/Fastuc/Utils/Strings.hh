@@ -12,7 +12,7 @@ class Strings
 	 * @param string $string
 	 * @return string
 	 */
-	public static function sanitize( string $string ) : string
+	public static function sanitize( ?string $string ) : ?string
 	{
 		if( null === $string ) return null;
 
